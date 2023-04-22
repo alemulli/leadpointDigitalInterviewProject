@@ -33,9 +33,19 @@
             )
             document.getElementById('taskTitleInput').value = ""
             document.getElementById('taskDescriptionInput').value = ""
+            localStorage.setItem("localTasks", JSON.stringify(taskList))
           },
+
         };
       }
+      function checkLocal() {
+              if (localStorage.getItem("localTasks")) {
+        taskList = JSON.parse(localStorage.getItem("localTasks"))
+      } 
+      }
+      checkLocal()
+
+
     </script>
     <style>
       [x-cloak] {
