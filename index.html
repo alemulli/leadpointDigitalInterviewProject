@@ -5,7 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>FE - Interview Project</title>
-		<script src="https://cdn.tailwindcss.com"></script>
+		<!-- <script src="https://cdn.tailwindcss.com"></script> -->
 		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 		<style>
 			[x-cloak] {
@@ -14,6 +14,20 @@
 		</style>
 	</head>
 	<body>
-        <h1 x-data="{ message: 'I ❤️ Alpine' }" x-text="message"></h1>
+        <h1>Personal Task Manager</h1>
+        <div aria-label="Task Manager App" x-data="{ search: '', list: [] }">
+            <form>
+                <label for="taskTitle">Task title:</label><input type="text" name="taskTitle" required></input>
+                <label for="taskDescription">Task description:</label><input type="text" name="taskDescription" required></input>
+                <button type="submit">Add Task</button>
+            </form>
+            <div aria-label="Task List">
+                <div aria-label="Filters">
+                    <button>All</button><button>Active</button><button>Complete</button>
+                </div>
+                <!-- Another div with additional features here -->
+                <div aria-label="Tasks"></div>
+            </div>
+        </div>
     </body>
 </html>
