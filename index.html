@@ -11,18 +11,11 @@
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
-
+    
     <script>
-      // x-data for app, all variables and methods -- need to add a method to check local storage and replace task list with task list in local storage
-
-      function data() {
-
-        return {
-          taskList: [
-
-          ],
-          search: "",
-          async pushTask(taskList) {
+        function methods() {
+            return {
+                async pushTask(taskList) {
             taskList.push(
                 {
                     title: document.getElementById('taskTitleInput').value,
@@ -30,28 +23,21 @@
                     completed: false
                 }
             )
-            document.getElementById('taskTitleInput').value = ""
-            document.getElementById('taskDescriptionInput').value = ""
-            localStorage.setItem("localTasks", JSON.stringify(taskList))
           },
+          async firstTask(taskList) {
+            if (taskList.length === 0) {
+                taskList.push(
+                    {
+                        title: "Add a Task",
+                        description: "Add your first task to get started!", 
+                        completed: false
+                    }
+                )
+            }
+          }
+            }
 
-        };
-      }
-      function checkLocal() {
-              if (localStorage.getItem("localTasks")) {
-        taskList = JSON.parse(localStorage.getItem("localTasks"))
-      } else {
-        taskList = [            {
-              title: "Add a Task",
-              description: "Add your first task to get started!",
-              completed: false,
-            },]
-            localStorage.setItem("localTasks", JSON.stringify(taskList))
-      }
-      }
-      checkLocal()
-
-
+        }
     </script>
     <style>
       [x-cloak] {
@@ -59,9 +45,9 @@
       }
     </style>
   </head>
-  <body>
+  <body x-data="methods()">
     <h1>Personal Task Manager</h1>
-    <div aria-label="Task Manager App" x-data="$persist(data())" x-directives="{persist: $persist}">
+    <div aria-label="Task Manager App" x-data="{ taskList: $persist([]) }" x-directives="{persist: $persist}">
       <div>
         <label for="taskTitle">Task title:</label
         ><input type="text" id="taskTitleInput" name="taskTitle" required />
@@ -74,7 +60,7 @@
           <button>All</button><button>Active</button><button>Complete</button>
         </div>
         <!-- Another div with additional features here -->
-        <div aria-label="Tasks">
+        <div aria-label="Tasks" x-init="firstTask(taskList)">
           <template x-for="(task, index) in taskList" :key="index">
             <div>
               <input type="checkbox" />
