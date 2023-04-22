@@ -6,38 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FE - Interview Project</title>
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"
+    ></script>
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
-    
+
     <script>
-        function methods() {
-            return {
-                async pushTask(taskList) {
-            taskList.push(
-                {
-                    title: document.getElementById('taskTitleInput').value,
-                    description: document.getElementById('taskDescriptionInput').value,
-                    completed: false
-                }
-            )
+      function methods() {
+        return {
+          async pushTask(taskList) {
+            taskList.push({
+              title: document.getElementById("taskTitleInput").value,
+              description: document.getElementById("taskDescriptionInput")
+                .value,
+              completed: false,
+            });
+            document.getElementById("taskTitleInput").value = ""
+            document.getElementById("taskDescriptionInput").value = ""
           },
           async firstTask(taskList) {
             if (taskList.length === 0) {
-                taskList.push(
-                    {
-                        title: "Add a Task",
-                        description: "Add your first task to get started!", 
-                        completed: false
-                    }
-                )
+              taskList.push({
+                title: "Add a Task",
+                description: "Add your first task to get started!",
+                completed: false,
+              });
             }
+          },
+          async deleteTask(taskList, index) {
+            taskList.splice(index, index)
           }
-            }
-
-        }
+        };
+      }
     </script>
     <style>
       [x-cloak] {
@@ -47,14 +51,23 @@
   </head>
   <body x-data="methods()">
     <h1>Personal Task Manager</h1>
-    <div aria-label="Task Manager App" x-data="{ taskList: $persist([]) }" x-directives="{persist: $persist}">
+    <div
+      aria-label="Task Manager App"
+      x-data="{ taskList: $persist([]) }"
+      x-directives="{persist: $persist}"
+    >
       <div>
         <label for="taskTitle">Task title:</label
         ><input type="text" id="taskTitleInput" name="taskTitle" required />
         <label for="taskDescription">Task description:</label
-        ><input type="text" id = "taskDescriptionInput" name="taskDescription" required />
+        ><input
+          type="text"
+          id="taskDescriptionInput"
+          name="taskDescription"
+          required
+        />
         <button x-on:click="pushTask(taskList)">Add Task</button>
-        </div>
+      </div>
       <div aria-label="Task List">
         <div aria-label="Filters">
           <button>All</button><button>Active</button><button>Complete</button>
@@ -66,7 +79,7 @@
               <input type="checkbox" />
               <h3 x-text="task.title"></h3>
               <p x-text="task.description" `></p>
-              <button>x</button>
+              <button x-on:click="deleteTask(taskList, index)">x</button>
             </div>
           </template>
         </div>
