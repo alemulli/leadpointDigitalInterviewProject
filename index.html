@@ -6,21 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FE - Interview Project</title>
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
+
     <script>
       // x-data for app, all variables and methods -- need to add a method to check local storage and replace task list with task list in local storage
 
       function data() {
+
         return {
           taskList: [
-            {
-              title: "Add a Task",
-              description: "Add your first task to get started!",
-              completed: false,
-            },
+
           ],
           search: "",
           async pushTask(taskList) {
@@ -41,7 +40,14 @@
       function checkLocal() {
               if (localStorage.getItem("localTasks")) {
         taskList = JSON.parse(localStorage.getItem("localTasks"))
-      } 
+      } else {
+        taskList = [            {
+              title: "Add a Task",
+              description: "Add your first task to get started!",
+              completed: false,
+            },]
+            localStorage.setItem("localTasks", JSON.stringify(taskList))
+      }
       }
       checkLocal()
 
@@ -55,7 +61,7 @@
   </head>
   <body>
     <h1>Personal Task Manager</h1>
-    <div aria-label="Task Manager App" x-data="data()">
+    <div aria-label="Task Manager App" x-data="$persist(data())" x-directives="{persist: $persist}">
       <div>
         <label for="taskTitle">Task title:</label
         ><input type="text" id="taskTitleInput" name="taskTitle" required />
