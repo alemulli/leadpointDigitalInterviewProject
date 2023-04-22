@@ -39,6 +39,9 @@
           },
           async deleteTask(taskList, index) {
             taskList.splice(index, index)
+          },
+          async handleCheck(task){
+            task.completed = ! task.completed
           }
         };
       }
@@ -76,7 +79,7 @@
         <div aria-label="Tasks" x-init="firstTask(taskList)">
           <template x-for="(task, index) in taskList" :key="index">
             <div>
-              <input type="checkbox" />
+              <input x-on:click="handleCheck(task)" type="checkbox" id=`checkbox-${index}` x-bind:value="task.completed"/>
               <h3 x-text="task.title"></h3>
               <p x-text="task.description" `></p>
               <button x-on:click="deleteTask(taskList, index)">x</button>
