@@ -219,7 +219,7 @@
           <template x-for="(task, index) in filteredTasks" :key="task.id">
             <div x-data="{open: false}" class="bg-zinc-100 rounded-md p-4">
               <div x-show="!open" class="flex flex-row justify-between">
-                <div class="flex flex-row gap-4"><div>
+                <div x-data="{ strikethrough: task.completed}" class="flex flex-row gap-4"><div>
                 <input
                   x-on:click="task.completed = !task.completed"
                   type="checkbox"
@@ -227,7 +227,8 @@
                   x-bind:value="task.completed"
                 /></div>
                 <div>
-                <h3 x-text="task.title" class="font-semibold"></h3>
+                <h3 x-text="task.title" x-show="!strikethrough" class="font-semibold"></h3>
+                <h3 x-text="task.title" x-show="strikethrough" class="line-through"></h3>
                 <p x-text="task.description"></p></div></div><div><button x-on:click="open = ! open" aria-label="Edit Task">
                 <span id="edit" class="material-symbols-outlined"> edit </span>
               </button>
