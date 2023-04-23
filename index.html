@@ -49,6 +49,9 @@
               });
             }
           },
+          async deleteTask(taskList, index){
+            taskList = await taskList.splice(index,1)
+          }
         };
       }
     </script>
@@ -76,7 +79,7 @@
           value=""
         />
         <button
-          x-on:click="pushTask(taskList); $nextTick(()=>{filteredTasks = [...taskList]})"
+          x-on:click="await pushTask(taskList); $nextTick(()=>{filteredTasks = [...taskList]})"
         >
           Add Task
         </button>
@@ -113,7 +116,7 @@
                   x-bind:value="task.completed"
                 />
                 <h3 x-text="task.title"></h3>
-                <p x-text="task.description" `></p>
+                <p x-text="task.description"></p>
               </div>
               <form x-show="open">
                 <label for="editTitle">Edit title:</label
@@ -142,8 +145,8 @@
               </button>
               <button
                 aria-label="Delete Task"
-                x-on:click=" taskList.splice(index, 1);
-                $nextTick(() => {filteredTasks = [...taskList]})"
+                x-on:click=" await deleteTask(taskList, index);
+                filteredTasks = [...taskList]"
               >
                 <span class="material-symbols-outlined"> close </span>
               </button>
