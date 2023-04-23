@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class = "bg-gradient-to-b from-sky-500 via-emerald-500 to-[#84c03e] to-100% h-screen w-screen font-sans">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
 
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"
@@ -63,8 +63,8 @@
       }
     </style>
   </head>
-  <body x-data="methods()">
-    <h1>Personal Task Manager</h1>
+  <body x-data="methods()" class="mx-auto my-4 w-4/5" >
+    <h1 class="text-white text-2xl mb-4 font-semibold">Personal Task Manager</h1>
     <div
       aria-label="Task Manager App"
       x-data="{ taskList: $persist([]), filteredTasks: [] }"
