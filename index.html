@@ -105,6 +105,9 @@
           >
             Complete
           </button>
+          <button aria-label="Sort Incomplete on Top" x-on:click="taskList.sort(function (a,b) {
+            return a.completed - b.completed;
+          }); $nextTick(()=>{filteredTasks = [...taskList]})">Sort Incomplete on Top</button>
         </div>
         <!-- Another div with additional features here -->
         <div aria-label="Tasks" x-init="firstTask(taskList)">
