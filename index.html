@@ -35,7 +35,7 @@
               title: document.getElementById("taskTitleInput").value,
               description: document.getElementById("taskDescriptionInput")
                 .value,
-                id: Date.now(),
+              id: Date.now(),
               completed: false,
             });
             document.getElementById("taskTitleInput").value = "";
@@ -51,9 +51,9 @@
               });
             }
           },
-          async deleteTask(taskList, index){
-            taskList = await taskList.splice(index,1)
-          }
+          async deleteTask(taskList, index) {
+            taskList = await taskList.splice(index, 1);
+          },
         };
       }
     </script>
@@ -90,7 +90,7 @@
         aria-label="Task List"
         x-init="$nextTick(()=>{filteredTasks = [... taskList]})"
       >
-        <div aria-label="Filters">
+        <div aria-label="Filters" x-data="{ search: '' }">
           <button aria-label="All" x-on:click="filteredTasks = [...taskList]">
             All</button
           ><button
@@ -105,9 +105,19 @@
           >
             Complete
           </button>
-          <button aria-label="Sort Incomplete on Top" x-on:click="taskList.sort(function (a,b) {
+          <button
+            aria-label="Sort Incomplete on Top"
+            x-on:click="taskList.sort(function (a,b) {
             return a.completed - b.completed;
-          }); $nextTick(()=>{filteredTasks = [...taskList]})">Sort Incomplete on Top</button>
+          }); $nextTick(()=>{filteredTasks = [...taskList]})"
+          >
+            Sort Incomplete on Top</button
+          ><input
+            type="search"
+            placeholder="Search..."
+            x-model="search"
+            x-on:change="filteredTasks = [...taskList]; filteredTasks = filteredTasks.filter(task => task.title.toLowerCase().includes(search.toLowerCase()) || task.description.toLowerCase().includes(search.toLowerCase())); if (search === '') {filteredTasks = [...taskList]}"
+          />
         </div>
         <!-- Another div with additional features here -->
         <div aria-label="Tasks" x-init="firstTask(taskList)">
