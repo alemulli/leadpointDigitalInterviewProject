@@ -73,7 +73,7 @@
         />
         <button x-on:click="pushTask(taskList); $nextTick(()=>{filteredTasks = [...taskList]})">Add Task</button>
         </form>
-      <div aria-label="Task List" x-init="filteredTasks = [... taskList]">
+      <div aria-label="Task List" x-init="$nextTick(()=>{filteredTasks = [... taskList]})">
         <div aria-label="Filters">
           <button aria-label="All" x-on:click="filteredTasks = [...taskList]">All</button><button aria-label="Incomplete" x-on:click="filteredTasks = taskList.filter(task => task.completed === false
         )">Incomplete</button><button aria-label="Complete" x-on:click="filteredTasks = taskList.filter(task => task.completed === true)">Complete</button>
