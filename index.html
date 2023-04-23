@@ -57,6 +57,20 @@
           async deleteTask(taskList, index) {
             taskList = await taskList.splice(index, 1);
           },
+          async changeButtonStyle(id) {
+            const buttons = ['allButton', 'incompleteButton', 'completeButton']
+            filteredButtons = buttons.filter (button => button !== id)
+            document.getElementById(id).classList.remove("bg-white")
+            document.getElementById(id).classList.remove("text-sky-500")
+            document.getElementById(id).classList.add("bg-sky-500")
+            document.getElementById(id).classList.add("text-white")
+            for (button in filteredButtons){
+                document.getElementById(filteredButtons[button]).classList.remove("bg-sky-500")
+                document.getElementById(filteredButtons[button]).classList.remove("text-white")
+                document.getElementById(filteredButtons[button]).classList.add("bg-white")
+                document.getElementById(filteredButtons[button]).classList.add("text-sky-500")
+            }
+          }
         };
       }
     </script>
@@ -120,27 +134,38 @@
         ></textarea>
         <button
           x-on:click="await pushTask(taskList); $nextTick(()=>{filteredTasks = [...taskList]})"
+          class="rounded-md bg-sky-500 py-2 px-4 text-white w-max hover:bg-sky-400 hover:font-semibold"
         >
           Add Task
         </button>
       </form>
       <div
         aria-label="Task List"
+        x-data="{ search: '' }"
         x-init="$nextTick(()=>{filteredTasks = [... taskList]})"
         class="bg-white rounded-md shadow-lg p-4 flex flex-col mb-4 overflow-hidden"
       >
-        <div aria-label="Filters" x-data="{ search: '' }">
-          <button aria-label="All" x-on:click="filteredTasks = [...taskList]">
+        <div aria-label="Filters" class="flex flex-wrap gap-2">
+          <button
+            aria-label="All"
+            x-on:click="filteredTasks = [...taskList]; changeButtonStyle('allButton')"
+            id="allButton"
+            class="rounded-md bg-sky-500 py-2 px-4 text-white w-max  hover:bg-sky-400 hover:font-semibold border border-sky-500 hover:text-white"
+          >
             All</button
           ><button
             aria-label="Incomplete"
             x-on:click="filteredTasks = taskList.filter(task => task.completed === false
-        )"
+        ); changeButtonStyle('incompleteButton')"
+            id="incompleteButton"
+            class="rounded-md bg-white py-2 px-4 text-sky-500 w-max  hover:bg-sky-400 hover:font-semibold border border-sky-500 hover:text-white"
           >
             Incomplete</button
           ><button
             aria-label="Complete"
-            x-on:click="filteredTasks = taskList.filter(task => task.completed === true)"
+            x-on:click="filteredTasks = taskList.filter(task => task.completed === true); changeButtonStyle('completeButton')"
+            id="completeButton"
+            class="rounded-md bg-white py-2 px-4 text-sky-500 w-max  hover:bg-sky-400 hover:font-semibold  border border-sky-500 hover:text-white"
           >
             Complete
           </button>
@@ -149,16 +174,18 @@
             x-on:click="taskList.sort(function (a,b) {
             return a.completed - b.completed;
           }); $nextTick(()=>{filteredTasks = [...taskList]})"
+            class="rounded-md bg-sky-500 py-2 px-4 text-white w-max hover:bg-sky-400 hover:font-semibold hover:text-white border border-sky-500"
           >
-            Sort Incomplete on Top</button
-          ><input
-            type="search"
-            placeholder="Search..."
-            x-model="search"
-            x-on:input="filteredTasks = [...taskList]; filteredTasks = filteredTasks.filter(task => task.title.toLowerCase().includes(search.toLowerCase()) || task.description.toLowerCase().includes(search.toLowerCase())); if (search === '') {filteredTasks = [...taskList]}"
-          />
+            Sort Incomplete on Top
+          </button>
         </div>
-        <!-- Another div with additional features here -->
+        <input
+          type="search"
+          placeholder="Search..."
+          x-model="search"
+          x-on:input="filteredTasks = [...taskList]; filteredTasks = filteredTasks.filter(task => task.title.toLowerCase().includes(search.toLowerCase()) || task.description.toLowerCase().includes(search.toLowerCase())); if (search === '') {filteredTasks = [...taskList]}"
+          class="border border-zinc-300 rounded-md p-2 my-4"/>
+
         <div
           aria-label="Tasks"
           x-init="firstTask(taskList)"
