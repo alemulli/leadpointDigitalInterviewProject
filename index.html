@@ -97,6 +97,16 @@
       *::-webkit-scrollbar-button {
         display: none;
       }
+
+      #edit {
+        color: black;
+        transform: scale(0.75)
+      }
+
+      #delete {
+        color: red;
+        transform: scale(0.75)
+      }
     </style>
   </head>
   <body
@@ -189,52 +199,54 @@
         <div
           aria-label="Tasks"
           x-init="firstTask(taskList)"
-          class="overflow-y-auto"
+          class="overflow-y-auto flex flex-col gap-2"
         >
           <template x-for="(task, index) in filteredTasks" :key="task.id">
-            <div x-data="{open: false}">
-              <div x-show="!open">
+            <div x-data="{open: false}" class="bg-zinc-100 rounded-md p-4">
+              <div x-show="!open" class="flex flex-row justify-between">
+                <div class="flex flex-row gap-4"><div>
                 <input
                   x-on:click="task.completed = !task.completed"
                   type="checkbox"
                   x-bind:id="`checkbox-${index}`"
                   x-bind:value="task.completed"
-                />
-                <h3 x-text="task.title"></h3>
-                <p x-text="task.description"></p>
-              </div>
-              <form x-show="open">
-                <label for="editTitle">Edit title:</label
-                ><input
-                  type="text"
-                  x-bind:id="`editTitleInput-${index}`"
-                  name="editTitle"
-                  x-model:placeholder="task.title"
-                />
-                <label for="editDescription">Edit description:</label
-                ><input
-                  type="text"
-                  x-bind:id="`editDescriptionInput-${index}`"
-                  name="editDescription"
-                  x-model="task.description"
-                />
-                <button
-                  x-on:click="open = false; $nextTick(()=>{filteredTasks = [...taskList]})"
-                >
-                  Submit Changes
-                </button>
-              </form>
-
-              <button x-on:click="open = ! open" aria-label="Edit Task">
-                <span class="material-symbols-outlined"> edit </span>
+                /></div>
+                <div>
+                <h3 x-text="task.title" class="font-semibold"></h3>
+                <p x-text="task.description"></p></div></div><div><button x-on:click="open = ! open" aria-label="Edit Task">
+                <span id="edit" class="material-symbols-outlined"> edit </span>
               </button>
               <button
                 aria-label="Delete Task"
                 x-on:click=" await deleteTask(taskList, index);
                 filteredTasks = [...taskList]"
               >
-                <span class="material-symbols-outlined"> close </span>
-              </button>
+                <span id="delete" class="material-symbols-outlined "> close </span>
+              </button></div>
+              </div>
+              <form x-show="open" class="flex flex-col">
+                <label for="editTitle">Edit title:</label
+                ><input
+                  type="text"
+                  x-bind:id="`editTitleInput-${index}`"
+                  name="editTitle"
+                  x-model:placeholder="task.title" class="border border-zinc-300 rounded-md p-2 mb-4"
+                />
+                <label for="editDescription">Edit description:</label
+                ><input
+                  type="text"
+                  x-bind:id="`editDescriptionInput-${index}`"
+                  name="editDescription"
+                  x-model="task.description" class="border border-zinc-300 rounded-md p-2 mb-4"
+                />
+                <button
+                  x-on:click="open = false; $nextTick(()=>{filteredTasks = [...taskList]})" class="rounded-md bg-sky-500 py-2 px-4 text-white w-max hover:bg-sky-400 hover:font-semibold"
+                >
+                  Submit Changes
+                </button>
+              </form>
+
+              
             </div>
           </template>
         </div>
