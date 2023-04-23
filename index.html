@@ -221,7 +221,7 @@
               <div x-show="!open" class="flex flex-row justify-between">
                 <div x-data="{ strikethrough: task.completed}" class="flex flex-row gap-4"><div>
                 <input
-                  x-on:click="task.completed = !task.completed"
+                  x-on:click="task.completed = !task.completed; strikethrough = !strikethrough"
                   type="checkbox"
                   x-bind:id="`checkbox-${index}`"
                   x-bind:value="task.completed"
