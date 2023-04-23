@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" class = "bg-gradient-to-b from-sky-500 via-emerald-500 to-[#84c03e] to-100% h-screen w-screen font-sans overflow-hidden">
+<html
+  lang="en"
+  class="bg-gradient-to-b from-sky-500 via-emerald-500 to-[#84c03e] to-100% h-screen w-screen font-sans overflow-hidden"
+>
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -61,23 +64,59 @@
       [x-cloak] {
         display: none;
       }
+
+      *::-webkit-scrollbar {
+        background-color: #fff;
+        width: 16px;
+      }
+
+      *::-webkit-scrollbar-track {
+        background-color: #fff;
+      }
+
+      *::-webkit-scrollbar-thumb {
+        background-color: #babac0;
+        border-radius: 16px;
+        border: 4px solid #fff;
+      }
+
+      *::-webkit-scrollbar-button {
+        display: none;
+      }
     </style>
   </head>
-  <body x-data="methods()" class="mx-auto my-4 w-4/5 max-h-full h-full overflow-hidden" >
-    <h1 class="text-white text-2xl mb-4 font-semibold">Personal Task Manager</h1>
+  <body
+    x-data="methods()"
+    class="mx-auto my-4 w-4/5 max-h-full h-full overflow-hidden"
+  >
+    <h1 class="text-white text-2xl mb-4 font-semibold">
+      Personal Task Manager
+    </h1>
     <div
       aria-label="Task Manager App"
       x-data="{ taskList: $persist([]), filteredTasks: [] }"
-      x-directives="{persist: $persist}" class="max-h-5/6 h-5/6 overflow-hidden flex flex-col"
+      x-directives="{persist: $persist}"
+      class="max-h-5/6 h-5/6 overflow-hidden flex flex-col"
     >
-      <form aria-label="New Task Form" class="bg-white rounded-md shadow-lg p-4 flex flex-col mb-4 max-h-fit">
+      <form
+        aria-label="New Task Form"
+        class="bg-white rounded-md shadow-lg p-4 flex flex-col mb-4 max-h-fit"
+      >
         <label for="taskTitle">Task title:</label
-        ><input type="text" id="taskTitleInput" name="taskTitle" value="" class="border border-zinc-300 rounded-md p-2 mb-4"/>
+        ><input
+          type="text"
+          id="taskTitleInput"
+          name="taskTitle"
+          value=""
+          class="border border-zinc-300 rounded-md p-2 mb-4"
+        />
         <label for="taskDescription">Task description:</label
         ><textarea
-          id="taskDescriptionInput" rows="3"
+          id="taskDescriptionInput"
+          rows="3"
           name="taskDescription"
-          value="" class="border border-zinc-300 rounded-md p-2 mb-4"
+          value=""
+          class="border border-zinc-300 rounded-md p-2 mb-4 resize-none"
         ></textarea>
         <button
           x-on:click="await pushTask(taskList); $nextTick(()=>{filteredTasks = [...taskList]})"
@@ -87,7 +126,8 @@
       </form>
       <div
         aria-label="Task List"
-        x-init="$nextTick(()=>{filteredTasks = [... taskList]})" class="bg-white rounded-md shadow-lg p-4 flex flex-col mb-4 overflow-hidden"
+        x-init="$nextTick(()=>{filteredTasks = [... taskList]})"
+        class="bg-white rounded-md shadow-lg p-4 flex flex-col mb-4 overflow-hidden"
       >
         <div aria-label="Filters" x-data="{ search: '' }">
           <button aria-label="All" x-on:click="filteredTasks = [...taskList]">
@@ -119,7 +159,11 @@
           />
         </div>
         <!-- Another div with additional features here -->
-        <div aria-label="Tasks" x-init="firstTask(taskList)" class="overflow-y-scroll">
+        <div
+          aria-label="Tasks"
+          x-init="firstTask(taskList)"
+          class="overflow-y-auto"
+        >
           <template x-for="(task, index) in filteredTasks" :key="task.id">
             <div x-data="{open: false}">
               <div x-show="!open">
