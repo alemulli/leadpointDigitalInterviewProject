@@ -45,12 +45,6 @@
               });
             }
           },
-          async deleteTask(taskList, index) {
-            taskList.splice(index, index)
-          },
-          async handleCheck(task){
-            task.completed = ! task.completed
-          },
         };
       }
     </script>
@@ -87,14 +81,21 @@
         <!-- Another div with additional features here -->
         <div aria-label="Tasks" x-init="firstTask(taskList)" >
           <template x-for="(task, index) in filteredTasks" :key="index">
-            <div>
-              <input x-on:click="handleCheck(task)" type="checkbox" id=`checkbox-${index}` x-bind:value="task.completed"/>
+            <div x-data="{open: false}">
+                <div x-show="!open">
+              <input x-on:click="task.completed = !task.completed" type="checkbox" id=`checkbox-${index}` x-bind:value="task.completed"/>
               <h3 x-text="task.title"></h3>
-              <p x-text="task.description" `></p>
-              <button aria-label="Edit Task"><span class="material-symbols-outlined">
+              <p x-text="task.description" `></p></div>
+              <form x-show="open">
+            <label for="editTitle">Edit title:</label><input type="text" id=`editTitleInput-${index}` name="editTitle" x-model:placeholder="task.title">
+            <label for="editDescription">Edit description:</label><input type="text" id=`editDescriptionInput-${index}` name="editDescription" x-model="task.description">
+            <button x-on:click="open = false; $nextTick(()=>{filteredTasks = [...taskList]})">Submit Changes</button>
+            </form>
+
+              <button x-on:click="open = ! open" aria-label="Edit Task"><span class="material-symbols-outlined">
                 edit
                 </span></button>
-              <button aria-label="Delete Task" x-on:click="deleteTask(taskList, index); filteredTasks = [...taskList]"><span class="material-symbols-outlined">
+              <button aria-label="Delete Task" x-on:click="taskList.splice(index, index); filteredTasks = [...taskList]"><span class="material-symbols-outlined">
                 close
                 </span></button>
             </div>
