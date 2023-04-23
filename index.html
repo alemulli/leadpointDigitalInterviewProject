@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FE - Interview Project</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <script
       defer
@@ -42,7 +44,7 @@
           },
           async handleCheck(task){
             task.completed = ! task.completed
-          }
+          },
         };
       }
     </script>
@@ -71,18 +73,24 @@
         />
         <button x-on:click="pushTask(taskList)">Add Task</button>
       </div>
-      <div aria-label="Task List">
+      <div aria-label="Task List" x-data="{filteredTasks: []}" x-init="filteredTasks = [... taskList]">
         <div aria-label="Filters">
-          <button>All</button><button>Active</button><button>Complete</button>
+          <button aria-label="All" x-on:click="filteredTasks = [...taskList]">All</button><button aria-label="Incomplete" x-on:click="filteredTasks = taskList.filter(task => task.completed === false
+        )">Incomplete</button><button aria-label="Complete" x-on:click="filteredTasks = taskList.filter(task => task.completed === true)">Complete</button>
         </div>
         <!-- Another div with additional features here -->
-        <div aria-label="Tasks" x-init="firstTask(taskList)">
-          <template x-for="(task, index) in taskList" :key="index">
+        <div aria-label="Tasks" x-init="firstTask(taskList)" >
+          <template x-for="(task, index) in filteredTasks" :key="index">
             <div>
               <input x-on:click="handleCheck(task)" type="checkbox" id=`checkbox-${index}` x-bind:value="task.completed"/>
               <h3 x-text="task.title"></h3>
               <p x-text="task.description" `></p>
-              <button x-on:click="deleteTask(taskList, index)">x</button>
+              <button aria-label="Edit Task"><span class="material-symbols-outlined">
+                edit
+                </span></button>
+              <button aria-label="Delete Task" x-on:click="deleteTask(taskList, index)"><span class="material-symbols-outlined">
+                close
+                </span></button>
             </div>
           </template>
         </div>
