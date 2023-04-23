@@ -35,6 +35,7 @@
               title: document.getElementById("taskTitleInput").value,
               description: document.getElementById("taskDescriptionInput")
                 .value,
+                id: Date.now(),
               completed: false,
             });
             document.getElementById("taskTitleInput").value = "";
@@ -45,6 +46,7 @@
               taskList.push({
                 title: "Add a Task",
                 description: "Add your first task to get started!",
+                id: Date.now(),
                 completed: false,
               });
             }
@@ -106,7 +108,7 @@
         </div>
         <!-- Another div with additional features here -->
         <div aria-label="Tasks" x-init="firstTask(taskList)">
-          <template x-for="(task, index) in filteredTasks" :key="index">
+          <template x-for="(task, index) in filteredTasks" :key="task.id">
             <div x-data="{open: false}">
               <div x-show="!open">
                 <input
