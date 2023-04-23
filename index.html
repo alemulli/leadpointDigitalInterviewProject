@@ -228,7 +228,7 @@
                 /></div>
                 <div>
                 <h3 x-text="task.title" x-show="!strikethrough" class="font-semibold"></h3>
-                <h3 x-text="task.title" x-show="strikethrough" class="line-through"></h3>
+                <h3 x-text="task.title" x-show="strikethrough" class="line-through font-semibold text-zinc-400"></h3>
                 <p x-text="task.description"></p></div></div><div><button x-on:click="open = ! open" aria-label="Edit Task">
                 <span id="edit" class="material-symbols-outlined"> edit </span>
               </button>
