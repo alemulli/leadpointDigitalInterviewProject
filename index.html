@@ -55,24 +55,35 @@
             }
           },
           async deleteTask(taskList, index) {
-            const response = confirm("Are you sure you want to delete that task?");
-            if (response){
-            taskList = await taskList.splice(index, 1);}
+            const response = confirm(
+              "Are you sure you want to delete that task?"
+            );
+            if (response) {
+              taskList = await taskList.splice(index, 1);
+            }
           },
           async changeButtonStyle(id) {
-            const buttons = ['allButton', 'incompleteButton', 'completeButton']
-            filteredButtons = buttons.filter (button => button !== id)
-            document.getElementById(id).classList.remove("bg-white")
-            document.getElementById(id).classList.remove("text-sky-500")
-            document.getElementById(id).classList.add("bg-sky-500")
-            document.getElementById(id).classList.add("text-white")
-            for (button in filteredButtons){
-                document.getElementById(filteredButtons[button]).classList.remove("bg-sky-500")
-                document.getElementById(filteredButtons[button]).classList.remove("text-white")
-                document.getElementById(filteredButtons[button]).classList.add("bg-white")
-                document.getElementById(filteredButtons[button]).classList.add("text-sky-500")
+            const buttons = ["allButton", "incompleteButton", "completeButton"];
+            filteredButtons = buttons.filter((button) => button !== id);
+            document.getElementById(id).classList.remove("bg-white");
+            document.getElementById(id).classList.remove("text-sky-500");
+            document.getElementById(id).classList.add("bg-sky-500");
+            document.getElementById(id).classList.add("text-white");
+            for (button in filteredButtons) {
+              document
+                .getElementById(filteredButtons[button])
+                .classList.remove("bg-sky-500");
+              document
+                .getElementById(filteredButtons[button])
+                .classList.remove("text-white");
+              document
+                .getElementById(filteredButtons[button])
+                .classList.add("bg-white");
+              document
+                .getElementById(filteredButtons[button])
+                .classList.add("text-sky-500");
             }
-          }
+          },
         };
       }
     </script>
@@ -102,24 +113,24 @@
 
       #edit {
         color: black;
-        transform: scale(0.75)
+        transform: scale(0.75);
       }
 
       #delete {
         color: red;
-        transform: scale(0.75)
+        transform: scale(0.75);
       }
 
       @media screen and (height < 800) {
-        #taskList{
-            /* overflow: auto; */
-            min-height: fit-content !important;
-            height:fit-content !important;
-            max-height: fit-content !important;
+        #taskList {
+          /* overflow: auto; */
+          min-height: fit-content !important;
+          height: fit-content !important;
+          max-height: fit-content !important;
         }
 
-        #taskManagerApp{
-            overflow:auto !important;
+        #taskManagerApp {
+          overflow: auto !important;
         }
       }
     </style>
@@ -132,10 +143,11 @@
       Personal Task Manager
     </h1>
     <div
-      aria-label="Task Manager App" id="taskManagerApp"
+      aria-label="Task Manager App"
+      id="taskManagerApp"
       x-data="{ taskList: $persist([]), filteredTasks: [] }"
       x-directives="{persist: $persist}"
-      class="max-h-5/6 h-5/6 overflow-hidden flex flex-col "
+      class="max-h-5/6 h-5/6 overflow-hidden flex flex-col"
     >
       <form
         aria-label="New Task Form"
@@ -165,17 +177,18 @@
         </button>
       </form>
       <div
-        aria-label="Task List" id="taskList"
+        aria-label="Task List"
+        id="taskList"
         x-data="{ search: '' }"
         x-init="$nextTick(()=>{filteredTasks = [... taskList]})"
-        class="bg-white rounded-md shadow-lg p-4 flex flex-col mb-4 overflow-hidden "
+        class="bg-white rounded-md shadow-lg p-4 flex flex-col mb-4 overflow-hidden"
       >
         <div aria-label="Filters" class="flex flex-wrap gap-2">
           <button
             aria-label="All"
             x-on:click="filteredTasks = [...taskList]; changeButtonStyle('allButton')"
             id="allButton"
-            class="rounded-md bg-sky-500 py-2 px-4 text-white w-max  hover:bg-sky-400 hover:font-semibold border border-sky-500 hover:text-white"
+            class="rounded-md bg-sky-500 py-2 px-4 text-white w-max hover:bg-sky-400 hover:font-semibold border border-sky-500 hover:text-white"
           >
             All</button
           ><button
@@ -183,14 +196,14 @@
             x-on:click="filteredTasks = taskList.filter(task => task.completed === false
         ); changeButtonStyle('incompleteButton')"
             id="incompleteButton"
-            class="rounded-md bg-white py-2 px-4 text-sky-500 w-max  hover:bg-sky-400 hover:font-semibold border border-sky-500 hover:text-white"
+            class="rounded-md bg-white py-2 px-4 text-sky-500 w-max hover:bg-sky-400 hover:font-semibold border border-sky-500 hover:text-white"
           >
             Incomplete</button
           ><button
             aria-label="Complete"
             x-on:click="filteredTasks = taskList.filter(task => task.completed === true); changeButtonStyle('completeButton')"
             id="completeButton"
-            class="rounded-md bg-white py-2 px-4 text-sky-500 w-max  hover:bg-sky-400 hover:font-semibold  border border-sky-500 hover:text-white"
+            class="rounded-md bg-white py-2 px-4 text-sky-500 w-max hover:bg-sky-400 hover:font-semibold border border-sky-500 hover:text-white"
           >
             Complete
           </button>
@@ -209,36 +222,59 @@
           placeholder="Search..."
           x-model="search"
           x-on:input="filteredTasks = [...taskList]; filteredTasks = filteredTasks.filter(task => task.title.toLowerCase().includes(search.toLowerCase()) || task.description.toLowerCase().includes(search.toLowerCase())); if (search === '') {filteredTasks = [...taskList]}"
-          class="border border-zinc-300 rounded-md p-2 my-4"/>
+          class="border border-zinc-300 rounded-md p-2 my-4"
+        />
 
         <div
           aria-label="Tasks"
           x-init="firstTask(taskList)"
-          class="overflow-y-auto flex flex-col gap-2 "
+          class="overflow-y-auto flex flex-col gap-2"
         >
           <template x-for="(task, index) in filteredTasks" :key="task.id">
             <div x-data="{open: false}" class="bg-zinc-100 rounded-md p-4">
               <div x-show="!open" class="flex flex-row justify-between">
-                <div x-data="{ strikethrough: task.completed}" class="flex flex-row gap-4"><div>
-                <input
-                  x-on:click="task.completed = !task.completed; strikethrough = !strikethrough"
-                  type="checkbox"
-                  x-bind:id="`checkbox-${index}`"
-                  x-bind:value="task.completed"
-                /></div>
+                <div
+                  x-data="{ strikethrough: task.completed}"
+                  class="flex flex-row gap-4"
+                >
+                  <div>
+                    <input
+                      x-on:click="task.completed = !task.completed; strikethrough = !strikethrough"
+                      type="checkbox"
+                      x-bind:id="`checkbox-${index}`"
+                      x-bind:value="task.completed"
+                    />
+                  </div>
+                  <div>
+                    <h3
+                      x-text="task.title"
+                      x-show="!strikethrough"
+                      class="font-semibold"
+                    ></h3>
+                    <h3
+                      x-text="task.title"
+                      x-show="strikethrough"
+                      class="line-through font-semibold text-zinc-400"
+                    ></h3>
+                    <p x-text="task.description"></p>
+                  </div>
+                </div>
                 <div>
-                <h3 x-text="task.title" x-show="!strikethrough" class="font-semibold"></h3>
-                <h3 x-text="task.title" x-show="strikethrough" class="line-through font-semibold text-zinc-400"></h3>
-                <p x-text="task.description"></p></div></div><div><button x-on:click="open = ! open" aria-label="Edit Task">
-                <span id="edit" class="material-symbols-outlined"> edit </span>
-              </button>
-              <button
-                aria-label="Delete Task"
-                x-on:click=" await deleteTask(taskList, index);
+                  <button x-on:click="open = ! open" aria-label="Edit Task">
+                    <span id="edit" class="material-symbols-outlined">
+                      edit
+                    </span>
+                  </button>
+                  <button
+                    aria-label="Delete Task"
+                    x-on:click=" await deleteTask(taskList, index);
                 filteredTasks = [...taskList]"
-              >
-                <span id="delete" class="material-symbols-outlined "> close </span>
-              </button></div>
+                  >
+                    <span id="delete" class="material-symbols-outlined">
+                      close
+                    </span>
+                  </button>
+                </div>
               </div>
               <form x-show="open" class="flex flex-col">
                 <label for="editTitle">Edit title:</label
@@ -246,22 +282,25 @@
                   type="text"
                   x-bind:id="`editTitleInput-${index}`"
                   name="editTitle"
-                  x-model:placeholder="task.title" class="border border-zinc-300 rounded-md p-2 mb-4"
+                  x-model:placeholder="task.title"
+                  class="border border-zinc-300 rounded-md p-2 mb-4"
                 />
                 <label for="editDescription">Edit description:</label
                 ><input
                   type="text"
                   x-bind:id="`editDescriptionInput-${index}`"
                   name="editDescription"
-                  x-model="task.description" class="border border-zinc-300 rounded-md p-2 mb-4"
+                  x-model="task.description"
+                  class="border border-zinc-300 rounded-md p-2 mb-4"
                 />
-                <button aria-label="Save Changes"
-                  x-on:click="open = false; $nextTick(()=>{filteredTasks = [...taskList]})" class="rounded-md bg-sky-500 py-2 px-4 text-white w-max hover:bg-sky-400 hover:font-semibold"
+                <button
+                  aria-label="Save Changes"
+                  x-on:click="open = false; $nextTick(()=>{filteredTasks = [...taskList]})"
+                  class="rounded-md bg-sky-500 py-2 px-4 text-white w-max hover:bg-sky-400 hover:font-semibold"
                 >
                   Save Changes
                 </button>
               </form>
-
             </div>
           </template>
         </div>
